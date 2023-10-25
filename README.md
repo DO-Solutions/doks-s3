@@ -32,7 +32,7 @@ In this guide we will deploy a DigitalOcean Managed Kubernetes cluster. We'll us
 This blueprint will teach you to:
 
 - Deploy a DigitalOcean Kubernetes (DOKS) Cluster
-- 
+- Deploy [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
 
 This blueprint is heavily based on:
 - https://github.com/yandex-cloud/k8s-csi-s3
