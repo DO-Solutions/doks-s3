@@ -61,12 +61,12 @@ To create a Kubernetes cluster via the command-line, follow these steps:
 4.  Finally, create a Kubernetes cluster with `doctl kubernetes cluster create`.
 
     ```
-    doctl kubernetes cluster create doks-shark-1 --auto-upgrade=true --ha=true --node-pool="name=pool-apps;size=s-4vcpu-8gb-amd;count=3" --region=lon1 --surge-upgrade=true
+    doctl kubernetes cluster create doks-shark-1 --auto-upgrade=true --ha=true --node-pool="name=pool-apps;size=s-4vcpu-8gb-amd;count=3" --region=ams3 --surge-upgrade=true
     ```
 
 * `doks-shark-1` is our cluster name.
 * We are creating one node pool for our regular workloads.
-* The region is London, surge-upgrades are enabled, HA is enabled, auto-upgrade is enabled.
+* The region is Amsterdam, surge-upgrades are enabled, HA is enabled, auto-upgrade is enabled.
 * You'll want to [read the usage docs for more details](https://docs.digitalocean.com/reference/doctl/reference/kubernetes/cluster/create/)
 
 ## Setup k8s-csi-s3
