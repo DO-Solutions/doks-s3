@@ -9,7 +9,8 @@
 
 ## About this guide
 
-In this guide we will deploy a DigitalOcean Managed Kubernetes cluster. We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
+* In this guide we will deploy a DigitalOcean Managed Kubernetes cluster.
+* We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
 
 #### About DigitalOcean DOKS
 
@@ -19,9 +20,15 @@ In this guide we will deploy a DigitalOcean Managed Kubernetes cluster. We'll us
 
 > Spaces Object Storage is an S3-compatible object storage service that lets you store and serve large amounts of data. Each Space is a bucket for you to store and serve files. The built-in Spaces CDN minimizes page load times and improves performance.
 
-#### About CSI for S3
+#### About GeeseFS
 
-> This is a Container Storage Interface (CSI) for S3 (or S3 compatible) storage. This can dynamically allocate buckets and mount them via a fuse mount into any container.
+> Finally, a good FUSE FS implementation over S3
+
+* GeeseFS allows you to mount an S3 bucket as a file system.
+* FUSE file systems based on S3 typically have performance problems, especially with small files and metadata operations.
+* GeeseFS **attempts to solve these problems** by using aggressive parallelism and asynchrony.
+* GeeseFS is stable enough to pass most of xfstests which are applicable, including dirstress/fsstress stress-tests (generic/007, generic/011, generic/013).
+* Benchmarks compared to rclone+cache, goofys and s3fs: https://github.com/yandex-cloud/geesefs/tree/master/bench
 
 ## Architecture diagram
 <img src="./assets/k8s-csi-s3-doks-11.png" alt="Architecture diagram" width="800">
