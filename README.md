@@ -205,7 +205,7 @@ Benchmarks ran using [dbench](https://github.com/jkpedo/dbench/tree/doks)
 
 DigitalOcean Volume limits are [detailed here](https://docs.digitalocean.com/products/volumes/details/limits/)
 
-### Native volume testing
+### Native volume benchmarks
 
 Below are the results of a `s-2vcpu-4gb-amd` worker node with a 1TB Volume attached using the `do-block-storage` storageClass
 
@@ -217,6 +217,18 @@ Random Read/Write IOPS: 9986/9987. BW: 384MiB/s / 387MiB/s
 Average Latency (usec) Read/Write: 750.36/399.11
 Sequential Read/Write: 384MiB/s / 395MiB/s
 Mixed Random Read/Write IOPS: 7515/2471
+```
+
+### S3 benchmarks
+
+```
+==================
+= Dbench Summary =
+==================
+Random Read/Write IOPS: 126/1431. BW: 15.4MiB/s / 47.2MiB/s
+Average Latency (ms) Read/Write: 36.1/3.1
+Sequential Read/Write: 64.9MiB/s / 61.2MiB/s
+Mixed Random Read/Write IOPS: 46/14
 ```
 
 ## Conclusion
