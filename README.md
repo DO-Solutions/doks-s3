@@ -6,17 +6,6 @@
 
 <h3 align="center">How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
 
-  <p align="center">
-    DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure.
-    <br>Spaces Object Storage is an S3-compatible object storage service that lets you store and serve large amounts of data. Each Space is a bucket for you to store and serve files. The built-in Spaces CDN minimizes page load times and improves performance.</b>
-    <br />
-    <a href="https://docs.digitalocean.com/tutorials/kubernetes/"><strong>Explore more DOKS tutorials»</strong></a>
-    <br />
-    <a href="https://www.digitalocean.com/product-tours/kubernetes"><strong>Quick DOKS tour»</strong></a>
-  
-  </p>
-</div>
-
 ## About this guide
 
 In this guide we will deploy a DigitalOcean Managed Kubernetes cluster. We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
