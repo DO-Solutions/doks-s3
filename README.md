@@ -72,6 +72,12 @@ To create a Kubernetes cluster via the command-line, follow these steps:
 
 ## Setup k8s-csi-s3
 
+Clone the [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) repo locally
+
+```
+git clone https://github.com/yandex-cloud/k8s-csi-s3
+```
+
 #### 1. Create a secret with your S3 credentials
 
 ```yaml
@@ -84,6 +90,7 @@ stringData:
   accessKeyID: <YOUR_ACCESS_KEY_ID>
   secretAccessKey: <YOUR_SECRET_ACCESS_KEY>
   endpoint: https://ams3.digitaloceanspaces.com
+```
 
 #### 2. Deploy the driver
 
