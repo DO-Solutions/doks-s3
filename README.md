@@ -24,7 +24,7 @@ In this guide we will deploy a DigitalOcean Managed Kubernetes cluster. We'll us
 > This is a Container Storage Interface (CSI) for S3 (or S3 compatible) storage. This can dynamically allocate buckets and mount them via a fuse mount into any container.
 
 ## Architecture diagram
-<img src="./assets/k8s-csi-s3-doks.png" alt="Architecture diagram" width="800">
+<img src="./assets/k8s-csi-s3-doks-11.png" alt="Architecture diagram" width="800">
 
 ## Introduction
 
