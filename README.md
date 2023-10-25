@@ -5,6 +5,8 @@
   </a>
 
 <h3 align="center">How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
+ </p>
+</div>
 
 ## About this guide
 
