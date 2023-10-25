@@ -4,28 +4,27 @@
     <img src="./assets/DO_Logo-Blue.png" alt="Logo" >
   </a>
 
-<h3 align="center">How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
- </p>
+<h3>How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
 </div>
 
 ## About this guide
 
 In this guide we will deploy a DigitalOcean Managed Kubernetes cluster. We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
 
-### About DigitalOcean DOKS
+#### About DigitalOcean DOKS
 
 > DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
 
-### About DigitalOcean Spaces Object Storage
+#### About DigitalOcean Spaces Object Storage
 
 > Spaces Object Storage is an S3-compatible object storage service that lets you store and serve large amounts of data. Each Space is a bucket for you to store and serve files. The built-in Spaces CDN minimizes page load times and improves performance.
 
-### About CSI for S3
+#### About CSI for S3
 
 > This is a Container Storage Interface (CSI) for S3 (or S3 compatible) storage. This can dynamically allocate buckets and mount them via a fuse mount into any container.
 
 ## Architecture diagram
-<img src="./assets/k8s-csi-s3-doks-2.png" alt="Architecture diagram" width="800">
+<img src="./assets/k8s-csi-s3-doks.png" alt="Architecture diagram" width="800">
 
 ## Introduction
 
@@ -99,14 +98,6 @@ cd deploy/kubernetes
 kubectl create -f provisioner.yaml
 kubectl create -f driver.yaml
 kubectl create -f csi-s3.yaml
-```
-
-If you're upgrading from a previous version which had `attacher.yaml` you
-can safely delete all resources created from that file:
-
-```
-wget https://raw.githubusercontent.com/yandex-cloud/k8s-csi-s3/v0.35.5/deploy/kubernetes/attacher.yaml
-kubectl delete -f attacher.yaml
 ```
 
 #### 3. Create the storage class
