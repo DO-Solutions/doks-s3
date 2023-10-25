@@ -1,5 +1,21 @@
-# doks-s3
-How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)
+<br />
+<div align="center">
+  <a href="https://digitalocean.com/">
+    <img src="./assets/DO_Logo-Blue.png" alt="Logo" >
+  </a>
+
+<h3 align="center">How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
+
+  <p align="center">
+    DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure.
+    <br>Spaces Object Storage is an S3-compatible object storage service that lets you store and serve large amounts of data. Each Space is a bucket for you to store and serve files. The built-in Spaces CDN minimizes page load times and improves performance.</b>
+    <br />
+    <a href="https://docs.digitalocean.com/tutorials/kubernetes/"><strong>Explore more DOKS tutorials»</strong></a>
+    <br />
+    <a href="https://www.digitalocean.com/product-tours/kubernetes"><strong>Quick DOKS tour»</strong></a>
+  
+  </p>
+</div>
 
 ## About this guide
 
@@ -16,6 +32,25 @@ In this guide we will deploy a DigitalOcean Managed Kubernetes cluster. We'll us
 ### About CSI for S3
 
 > This is a Container Storage Interface (CSI) for S3 (or S3 compatible) storage. This can dynamically allocate buckets and mount them via a fuse mount into any container.
+
+## Architecture diagram
+![architecture](./assets/k8s-csi-s3-doks.png)
+
+## Introduction
+
+This blueprint will teach you to:
+
+- Deploy a DigitalOcean Kubernetes (DOKS) Cluster
+- 
+
+This blueprint is heavily based on:
+- https://github.com/yandex-cloud/k8s-csi-s3
+
+## Prerequisites
+
+1. A DigitalOcean account ([Log in](https://cloud.digitalocean.com/login))
+2. A DigitalOcean [Spaces Object Storage subscription](https://docs.digitalocean.com/products/spaces/how-to/create/)
+3. doctl CLI([tutorial](https://docs.digitalocean.com/reference/doctl/how-to/install/))
 
 ## Deploy a DigitalOcean DOKS Cluster
 
