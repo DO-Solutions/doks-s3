@@ -7,6 +7,12 @@
 <h3>How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
 </div>
 
+- [Architecture diagram](https://github.com/jkpe/doks-s3/tree/main#architecture-diagram)
+- [Deploy a DigitalOcean DOKS Cluster](https://github.com/jkpe/doks-s3/tree/main#deploy-a-digitalocean-doks-cluster)
+- [Setup k8s-csi-s3](https://github.com/jkpe/doks-s3/tree/main#setup-k8s-csi-s3)
+- [Troubleshooting](https://github.com/jkpe/doks-s3/tree/main#troubleshooting)
+- [Benchmarks](https://github.com/jkpe/doks-s3/tree/main#benchmarks)
+
 ## About this guide
 
 * In this guide we will deploy a DigitalOcean Managed Kubernetes cluster.
