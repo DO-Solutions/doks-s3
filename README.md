@@ -92,6 +92,9 @@ git clone https://github.com/yandex-cloud/k8s-csi-s3
 
 #### 1. Create a secret with your S3 credentials
 
+Be sure to replace the `endpoint` URL with the same region as your DOKS cluster.
+<br>Spaces availability per region is detailed [here.](https://docs.digitalocean.com/products/platform/availability-matrix/#other-product-availability)
+
 ```yaml
 apiVersion: v1
 kind: Secret
