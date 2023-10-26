@@ -198,8 +198,7 @@ kubectl logs -l app=csi-provisioner-s3 -c csi-s3 -n kube-system
 
 ### Issues creating containers
 
-1. Ensure feature gate `MountPropagation` is not set to `false`
-2. Check the logs of the s3-driver:
+1. Check the logs of the s3-driver:
 
 ```bash
 kubectl logs -l app=csi-s3 -c csi-s3 -n kube-system
@@ -207,6 +206,8 @@ kubectl logs -l app=csi-s3 -c csi-s3 -n kube-system
 
 
 ## Benchmarks
+
+Spaces Object Storage limits are [detailed here](https://docs.digitalocean.com/products/spaces/details/limits/)
 
 ### Tests using `dd` and `fio`
 
@@ -229,8 +230,6 @@ kubectl logs -l app=csi-s3 -c csi-s3 -n kube-system
 ### Dbench
 
 Benchmarks ran using [dbench](https://github.com/jkpedo/dbench/tree/doks)
-
-DigitalOcean Volume limits are [detailed here](https://docs.digitalocean.com/products/volumes/details/limits/)
 
 #### Native volume benchmarks
 
