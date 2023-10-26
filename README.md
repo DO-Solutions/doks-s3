@@ -216,15 +216,15 @@ kubectl logs -l app=csi-s3 -c csi-s3 -n kube-system
 * Write 1GB and 5GB files to Spaces Object Storage
 * Read 1GB and 5GB files from Spaces Object Storage
 
-| Test                                                                                                 | Command                                                      | Time                 |
-|------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|----------------------|
-| Create 6400 files sized 0.5-300KB, 30KB on average sharded over 1024 dirs with 2 level deep nesting. | python3 gen_small.py /mnt/s3/test1                           | 11.3s                |
-| Copy the directory                                                                                   | cp -r test1 test2                                            | 7.8s                 |
-| Delete the directory                                                                                 | rm -r test1                                                  | 1.2s                 |
-| Write 1GB                                                                                            | dd if=/dev/zero of=largefile bs=1MB count=1000 oflag=direct  | 6.8215 s, 147 MB/s   |
-| Read 1GB                                                                                             | dd if=largefile of=/dev/null bs=1MB iflag=direct             | 2.02862 s, 493 MB/s  |
-| Write 5GB                                                                                            | dd if=/dev/zero of=largefile5 bs=1MB count=5000 oflag=direct | 56.2905 s, 88.8 MB/s |
-| Read 5GB                                                                                             | dd if=largefile5 of=/dev/null bs=1MB iflag=direct            | 67.9547 s, 73.6 MB/s |
+| Test                 | Command                                                      | Time      | Detail    |
+|----------------------|--------------------------------------------------------------|-----------|-----------|
+| Create 6400 files    | python3 gen_small.py /mnt/s3/test1                           | 11.3 s    |           |
+| Copy the directory   | cp -r test1 test2                                            | 7.8 s     |           |
+| Delete the directory | rm -r test1                                                  | 1.2 s     |           |
+| Write 1GB            | dd if=/dev/zero of=largefile bs=1MB count=1000 oflag=direct  | 6.8215 s  | 147 MB/s  |
+| Read 1GB             | dd if=largefile of=/dev/null bs=1MB iflag=direct             | 2.02862 s | 493 MB/s  |
+| Write 5GB            | dd if=/dev/zero of=largefile5 bs=1MB count=5000 oflag=direct | 56.2905 s | 88.8 MB/s |
+| Read 5GB             | dd if=largefile5 of=/dev/null bs=1MB iflag=direct            | 67.9547 s | 73.6 MB/s |
 
 ### Dbench
 
