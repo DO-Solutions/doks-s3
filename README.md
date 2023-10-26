@@ -4,7 +4,7 @@
     <img src="./assets/DO_Logo-Blue.png" alt="Logo" >
   </a>
 
-<h3>How to use a Spaces Object Storage bucket as storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
+<h3>How to use a Spaces Object Storage bucket as RWX storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
 </div>
 
 - [Architecture diagram](https://github.com/jkpe/doks-s3/tree/main#architecture-diagram)
