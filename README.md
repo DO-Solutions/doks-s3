@@ -4,7 +4,7 @@
     <img src="./assets/DO_Logo-Blue.png" alt="Logo" >
   </a>
 
-<h3>How to use a Spaces Object Storage bucket as RWX storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
+<h3>How to use a Spaces Object Storage bucket as ReadWriteMany (RWX) storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
 </div>
 
 - [Architecture diagram](#architecture-diagram)
@@ -13,10 +13,10 @@
 - [Troubleshooting](#troubleshooting)
 - [Benchmarks](#benchmarks)
 
-## About this guide
+## Introduction
 
 - In this guide, we will deploy a DigitalOcean Managed Kubernetes cluster.
-- We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3), which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
+- We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3), which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming ReadWriteMany RMX storage.
 
 ### About DigitalOcean DOKS
 
@@ -39,17 +39,6 @@
 ## Architecture diagram
 
 <img src="./assets/k8s-csi-s3-doks-11.png" alt="Architecture diagram" width="800">
-
-## Introduction
-
-This blueprint will teach you to:
-
-- Deploy a DigitalOcean Kubernetes (DOKS) Cluster
-- Deploy [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3), which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
-
-This blueprint is heavily based on the following:
-
-- <https://github.com/yandex-cloud/k8s-csi-s3>
 
 ### Prerequisites
 
@@ -268,3 +257,10 @@ Mixed Random Read/Write IOPS: 46/14
 ```
 
 ## Conclusion
+
+In this guide, we deployed a DigitalOcean Managed Kubernetes cluster. We setup [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3), which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes by deploy the driver, creating a new storage class and deploying a test pod with RWX storage.
+
+## References
+
+[k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3)
+[geesefs](https://github.com/yandex-cloud/geesefs)
