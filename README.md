@@ -7,11 +7,11 @@
 <h3>How to use a Spaces Object Storage bucket as RWX storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
 </div>
 
-- [Architecture diagram](https://github.com/jkpe/doks-s3/tree/main#architecture-diagram)
-- [Deploy a DigitalOcean DOKS Cluster](https://github.com/jkpe/doks-s3/tree/main#deploy-a-digitalocean-doks-cluster)
-- [Setup k8s-csi-s3](https://github.com/jkpe/doks-s3/tree/main#setup-k8s-csi-s3)
-- [Troubleshooting](https://github.com/jkpe/doks-s3/tree/main#troubleshooting)
-- [Benchmarks](https://github.com/jkpe/doks-s3/tree/main#benchmarks)
+- [Architecture diagram](#architecture-diagram)
+- [Deploy a DigitalOcean DOKS Cluster](#deploy-a-digitalocean-doks-cluster)
+- [Setup k8s-csi-s3](#setup-k8s-csi-s3)
+- [Troubleshooting](#troubleshooting)
+- [Benchmarks](#benchmarks)
 
 ## About this guide
 
@@ -183,7 +183,7 @@ If the bucket is specified, it will still be created if it does not exist on the
 
 You can use static provisioning if you want to mount a pre-existing bucket or prefix within a pre-existing bucket and don’t want csi-s3 to delete it when PV is deleted.
 
-To do that, you should omit `storageClassName` in the `PersistentVolumeClaim` and manually create a `PersistentVolume` with a matching `claimRef,` like in the following example: [deploy/kubernetes/examples/pvc-manual.yaml](deploy/kubernetes/examples/pvc-manual.yaml).
+To do that, you should omit `storageClassName` in the `PersistentVolumeClaim` and manually create a `PersistentVolume` with a matching `claimRef,` like in the following example: [deploy/kubernetes/examples/pvc-manual.yaml](https://github.com/yandex-cloud/k8s-csi-s3/blob/master/deploy/kubernetes/examples/pvc-manual.yaml).
 
 You can check the POSIX compatibility matrix here: <https://github.com/yandex-cloud/geesefs#posix-compatibility-matrix>.
 
