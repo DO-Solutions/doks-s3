@@ -18,7 +18,7 @@
 - In this guide, we will deploy a DigitalOcean Managed Kubernetes cluster.
 - We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3), which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
 
-## About DigitalOcean DOKS
+### About DigitalOcean DOKS
 
 > [DigitalOcean Kubernetes (DOKS)](https://www.digitalocean.com/products/kubernetes) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
 
@@ -51,13 +51,13 @@ This blueprint is heavily based on the following:
 
 - <https://github.com/yandex-cloud/k8s-csi-s3>
 
-## Prerequisites
+### Prerequisites
 
 1. A DigitalOcean account ([Log in](https://cloud.digitalocean.com/login))
 2. A DigitalOcean [Spaces Object Storage subscription](https://docs.digitalocean.com/products/spaces/how-to/create/)
 3. doctl CLI([tutorial](https://docs.digitalocean.com/reference/doctl/how-to/install/))
 
-## Deploy a DigitalOcean DOKS Cluster
+### Deploy a DigitalOcean DOKS Cluster
 
 ### How to create a Kubernetes cluster using the DigitalOcean CLI
 
@@ -84,7 +84,7 @@ To create a Kubernetes cluster via the command line, follow these steps:
 - The region is Amsterdam; surge-upgrades are enabled, HA is enabled, and auto-upgrade is enabled.
 - You'll want to [read the usage docs for more details](https://docs.digitalocean.com/reference/doctl/reference/kubernetes/cluster/create/)
 
-## Setup k8s-csi-s3
+### Setup k8s-csi-s3
 
 Clone the [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) repo locally
 
@@ -92,7 +92,7 @@ Clone the [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) repo locally
 git clone https://github.com/yandex-cloud/k8s-csi-s3
 ```
 
-### 1. Create a secret with your S3 credentials
+#### 1. Create a secret with your S3 credentials
 
 Replace the `endpoint` URL with the same region as your DOKS cluster.
 <br>Spaces availability per region is detailed [here.](https://docs.digitalocean.com/products/platform/availability-matrix/#other-product-availability)
@@ -159,9 +159,9 @@ kubectl create -f examples/storageclass.yaml
 
 If something does not work as expected, check the troubleshooting section below.
 
-## Additional configuration
+### Additional configuration
 
-### Bucket
+#### Bucket
 
 By default, csi-s3 will create a new bucket per volume. The bucket name will match that of the volume ID. If you want your volumes to live in a pre-created bucket, you can specify the bucket in the storage class parameters:
 
