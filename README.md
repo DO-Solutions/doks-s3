@@ -4,95 +4,86 @@
     <img src="./assets/DO_Logo-Blue.png" alt="Logo" >
   </a>
 
-<h3>How to use a Spaces Object Storage bucket as RWX storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
+<h3>How to use a Spaces Object Storage bucket as ReadWriteMany (RWX) storage for a Kubernetes Pod with DOKS (DigitalOcean Kubernetes)</h3>
 </div>
 
-- [Architecture diagram](https://github.com/jkpe/doks-s3/tree/main#architecture-diagram)
-- [Deploy a DigitalOcean DOKS Cluster](https://github.com/jkpe/doks-s3/tree/main#deploy-a-digitalocean-doks-cluster)
-- [Setup k8s-csi-s3](https://github.com/jkpe/doks-s3/tree/main#setup-k8s-csi-s3)
-- [Troubleshooting](https://github.com/jkpe/doks-s3/tree/main#troubleshooting)
-- [Benchmarks](https://github.com/jkpe/doks-s3/tree/main#benchmarks)
-
-## About this guide
-
-* In this guide we will deploy a DigitalOcean Managed Kubernetes cluster.
-* We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
-
-#### About DigitalOcean DOKS
-
-> DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
-
-#### About DigitalOcean Spaces Object Storage
-
-> Spaces Object Storage is an S3-compatible object storage service that lets you store and serve large amounts of data. Each Space is a bucket for you to store and serve files. The built-in Spaces CDN minimizes page load times and improves performance.
-
-#### About GeeseFS
-
-> Finally, a good FUSE FS implementation over S3
-
-* GeeseFS allows you to mount an S3 bucket as a file system.
-* FUSE file systems based on S3 typically have performance problems, especially with small files and metadata operations.
-* GeeseFS **attempts to solve these problems** by using aggressive parallelism and asynchrony.
-* GeeseFS is stable enough to pass most of xfstests which are applicable, including dirstress/fsstress stress-tests (generic/007, generic/011, generic/013).
-* Benchmarks compared to rclone+cache, goofys and s3fs: https://github.com/yandex-cloud/geesefs/tree/master/bench
-
-## Architecture diagram
-<img src="./assets/k8s-csi-s3-doks-11.png" alt="Architecture diagram" width="800">
+- [Architecture diagram](#architecture-diagram)
+- [Deploy a DigitalOcean DOKS Cluster](#deploy-a-digitalocean-doks-cluster)
+- [Setup k8s-csi-s3](#setup-k8s-csi-s3)
+- [Troubleshooting](#troubleshooting)
+- [Benchmarks](#benchmarks)
 
 ## Introduction
 
-This blueprint will teach you to:
+- In this guide, we will deploy a DigitalOcean Managed Kubernetes cluster.
+- We'll use [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3), which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming ReadWriteMany RMX storage.
 
-- Deploy a DigitalOcean Kubernetes (DOKS) Cluster
-- Deploy [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes and give some working examples of consuming RMX storage.
+### About DigitalOcean DOKS
 
-This blueprint is heavily based on:
-- https://github.com/yandex-cloud/k8s-csi-s3
+> [DigitalOcean Kubernetes (DOKS)](https://www.digitalocean.com/products/kubernetes) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
 
-## Prerequisites
+### About DigitalOcean Spaces Object Storage
+
+> [Spaces Object Storage](https://www.digitalocean.com/products/spaces) is an S3-compatible object storage service that lets you store and serve large amounts of data. Each Space is a bucket for you to store and serve files. The built-in Spaces CDN minimizes page load times and improves performance.
+
+### About GeeseFS
+
+> Finally, an exemplary FUSE FS implementation over S3
+
+- [GeeseFS](https://github.com/yandex-cloud/geesefs) allows you to mount an S3 bucket as a file system.
+- FUSE file systems based on S3 typically have performance problems, especially with small files and metadata operations.
+- GeeseFS **attempts to solve these problems** by using aggressive parallelism and asynchrony.
+- GeeseFS is stable enough to pass most applicable xfstests, including dirstress/fsstress stress-tests (generic/007, generic/011, generic/013).
+- Benchmarks compared to rclone+cache, goofys and s3fs: <https://github.com/yandex-cloud/geesefs/tree/master/bench>
+
+## Architecture diagram
+
+<img src="./assets/k8s-csi-s3-doks-11.png" alt="Architecture diagram" width="800">
+
+### Prerequisites
 
 1. A DigitalOcean account ([Log in](https://cloud.digitalocean.com/login))
 2. A DigitalOcean [Spaces Object Storage subscription](https://docs.digitalocean.com/products/spaces/how-to/create/)
 3. doctl CLI([tutorial](https://docs.digitalocean.com/reference/doctl/how-to/install/))
 
-## Deploy a DigitalOcean DOKS Cluster
+### Deploy a DigitalOcean DOKS Cluster
 
 ### How to create a Kubernetes cluster using the DigitalOcean CLI
 
-To create a Kubernetes cluster via the command-line, follow these steps:
+To create a Kubernetes cluster via the command line, follow these steps:
 
-1.  [Install `doctl`](https://docs.digitalocean.com/reference/doctl/how-to/install/), the DigitalOcean command-line tool.
+1. [Install `doctl`](https://docs.digitalocean.com/reference/doctl/how-to/install/), the DigitalOcean command-line tool.
 
-2.  [Create a personal access token](https://docs.digitalocean.com/reference/api/create-personal-access-token/), and save it for use with `doctl`.
+2. [Create a personal access token](https://docs.digitalocean.com/reference/api/create-personal-access-token/), and save it with `doctl.`
 
-3.  Use the token to grant `doctl` access to your DigitalOcean account.
+3. Use the token to grant `doctl` access to your DigitalOcean account.
 
-    ```
+    ```bash
     doctl auth init
     ```
 
-4.  Finally, create a Kubernetes cluster with `doctl kubernetes cluster create`.
+4. Finally, create a Kubernetes cluster with `doctl kubernetes cluster create`.
 
-    ```
+    ```bash
     doctl kubernetes cluster create doks-shark-1 --auto-upgrade=true --ha=true --node-pool="name=pool-apps;size=s-4vcpu-8gb-amd;count=3" --region=ams3 --surge-upgrade=true
     ```
 
-* `doks-shark-1` is our cluster name.
-* We are creating one node pool for our regular workloads.
-* The region is Amsterdam, surge-upgrades are enabled, HA is enabled, auto-upgrade is enabled.
-* You'll want to [read the usage docs for more details](https://docs.digitalocean.com/reference/doctl/reference/kubernetes/cluster/create/)
+- `doks-shark-1` is our cluster name.
+- We are creating one node pool for our regular workloads.
+- The region is Amsterdam; surge-upgrades are enabled, HA is enabled, and auto-upgrade is enabled.
+- You'll want to [read the usage docs for more details](https://docs.digitalocean.com/reference/doctl/reference/kubernetes/cluster/create/)
 
-## Setup k8s-csi-s3
+### Setup k8s-csi-s3
 
 Clone the [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3) repo locally
 
-```
+```bash
 git clone https://github.com/yandex-cloud/k8s-csi-s3
 ```
 
 #### 1. Create a secret with your S3 credentials
 
-Be sure to replace the `endpoint` URL with the same region as your DOKS cluster.
+Replace the `endpoint` URL with the same region as your DOKS cluster.
 <br>Spaces availability per region is detailed [here.](https://docs.digitalocean.com/products/platform/availability-matrix/#other-product-availability)
 
 ```yaml
@@ -138,7 +129,7 @@ kubectl create -f examples/storageclass.yaml
     csi-s3-pvc   Bound     pvc-c5d4634f-8507-11e8-9f33-0e243832354b   5Gi        RWO            csi-s3         9s
     ```
 
-1. Create a test pod which mounts your volume:
+1. Create a test pod that mounts your volume:
 
     ```bash
     kubectl create -f examples/pod.yaml
@@ -157,11 +148,11 @@ kubectl create -f examples/storageclass.yaml
 
 If something does not work as expected, check the troubleshooting section below.
 
-## Additional configuration
+### Additional configuration
 
-### Bucket
+#### Bucket
 
-By default, csi-s3 will create a new bucket per volume. The bucket name will match that of the volume ID. If you want your volumes to live in a precreated bucket, you can simply specify the bucket in the storage class parameters:
+By default, csi-s3 will create a new bucket per volume. The bucket name will match that of the volume ID. If you want your volumes to live in a pre-created bucket, you can specify the bucket in the storage class parameters:
 
 ```yaml
 kind: StorageClass
@@ -175,25 +166,25 @@ parameters:
   bucket: some-existing-bucket-name
 ```
 
-If the bucket is specified, it will still be created if it does not exist on the backend. Every volume will get its own prefix within the bucket which matches the volume ID. When deleting a volume, also just the prefix will be deleted.
+If the bucket is specified, it will still be created if it does not exist on the backend. Every volume will get its prefix within the bucket, which matches the volume ID. When deleting a volume, just the prefix will be deleted.
 
 ### Static Provisioning
 
-If you want to mount a pre-existing bucket or prefix within a pre-existing bucket and don't want csi-s3 to delete it when PV is deleted, you can use static provisioning.
+You can use static provisioning if you want to mount a pre-existing bucket or prefix within a pre-existing bucket and don’t want csi-s3 to delete it when PV is deleted.
 
-To do that you should omit `storageClassName` in the `PersistentVolumeClaim` and manually create a `PersistentVolume` with a matching `claimRef`, like in the following example: [deploy/kubernetes/examples/pvc-manual.yaml](deploy/kubernetes/examples/pvc-manual.yaml).
+To do that, you should omit `storageClassName` in the `PersistentVolumeClaim` and manually create a `PersistentVolume` with a matching `claimRef,` like in the following example: [deploy/kubernetes/examples/pvc-manual.yaml](https://github.com/yandex-cloud/k8s-csi-s3/blob/master/deploy/kubernetes/examples/pvc-manual.yaml).
 
-You can check POSIX compatibility matrix here: https://github.com/yandex-cloud/geesefs#posix-compatibility-matrix.
+You can check the POSIX compatibility matrix here: <https://github.com/yandex-cloud/geesefs#posix-compatibility-matrix>.
 
 #### GeeseFS
 
-* Almost full POSIX compatibility
-* Good performance for both small and big files
-* Does not store file permissions and custom modification times
-* By default runs **outside** of the csi-s3 container using systemd, to not crash
+- Almost full POSIX compatibility
+- Good performance for both small and big files
+- Does not store file permissions and custom modification times
+- By default runs **outside** of the csi-s3 container using systemd, to not crash
   mountpoints with "Transport endpoint is not connected" when csi-s3 is upgraded
-  or restarted. Add `--no-systemd` to `parameters.options` of the `StorageClass`
-  to disable this behaviour.
+  or restarted. Add `--no-systemd` to `parameters.options` of the `StorageClass.`
+  to disable this behavior.
 
 ## Troubleshooting
 
@@ -213,7 +204,6 @@ kubectl logs -l app=csi-provisioner-s3 -c csi-s3 -n kube-system
 kubectl logs -l app=csi-s3 -c csi-s3 -n kube-system
 ```
 
-
 ## Benchmarks
 
 Spaces Object Storage limits are [detailed here](https://docs.digitalocean.com/products/spaces/details/limits/)
@@ -221,8 +211,8 @@ Spaces Object Storage limits are [detailed here](https://docs.digitalocean.com/p
 ### Tests using `dd` and `fio`
 
 - Use [`gen_small.py`](https://github.com/yandex-cloud/geesefs/blob/master/bench/gen_small.py) to create 6400 files, sized 0.5-300KB, 30KB on average, sharded over 1024 dirs with 2 level deep nesting
-    - Copy this directory
-    - Delete this directory
+  - Copy this directory
+  - Delete this directory
 - Write 1GB and 5GB files to Spaces Object Storage
 - Read 1GB and 5GB files from Spaces Object Storage
 
@@ -242,9 +232,9 @@ Benchmarks ran using [dbench](https://github.com/jkpedo/dbench/tree/doks)
 
 #### Native volume benchmarks
 
-Below are the results of a `s-2vcpu-4gb-amd` worker node with a 1TB Volume attached using the `do-block-storage` storageClass
+Below are the results of an `s-2vcpu-4gb-amd` worker node with a 1TB Volume attached using the `do-block-storage` storageClass
 
-```
+```bash
 ==================
 = Dbench Summary =
 ==================
@@ -256,7 +246,7 @@ Mixed Random Read/Write IOPS: 7515/2471
 
 #### S3 benchmarks
 
-```
+```bash
 ==================
 = Dbench Summary =
 ==================
@@ -267,3 +257,10 @@ Mixed Random Read/Write IOPS: 46/14
 ```
 
 ## Conclusion
+
+In this guide, we deployed a DigitalOcean Managed Kubernetes cluster. We setup [k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3), which is a [GeeseFS-based](https://github.com/yandex-cloud/geesefs) CSI for mounting S3 buckets as PersistentVolumes by deploy the driver, creating a new storage class and deploying a test pod with RWX storage.
+
+## References
+
+[k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3)
+[geesefs](https://github.com/yandex-cloud/geesefs)
