@@ -262,5 +262,12 @@ In this guide, we deployed a DigitalOcean Managed Kubernetes cluster. We setup [
 
 ## References
 
-[k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3)
+[k8s-csi-s3](https://github.com/yandex-cloud/k8s-csi-s3)\
 [geesefs](https://github.com/yandex-cloud/geesefs)
+
+<!-- CONTACT -->
+# Contact
+
+Jack Pearce, Solutions Engineer - jpearce@digitalocean.com
+
+<p align="right">(<a href="#top">back to top</a>)</p>
